@@ -24,3 +24,7 @@ type RespProduct struct {
 	Stock       int     `json:"-"`
 	Description string  `json:"description"`
 }
+type OrderItemEvent struct {
+	ProductID uint `json:"productId"`
+	Qty       int  `json:"qty"`
+}

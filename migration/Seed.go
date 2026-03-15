@@ -9,8 +9,6 @@ import (
 
 func SeedProducts() {
 	db := DatatbaseConnection.DB
-
-	// Check if products already exist
 	var count int64
 	db.Model(&models.Product{}).Count(&count)
 	if count > 0 {
@@ -18,7 +16,6 @@ func SeedProducts() {
 		return
 	}
 
-	// Create 10 sample products
 	products := []models.Product{
 		{
 			Name:        "Wireless Mouse",
@@ -77,7 +74,7 @@ func SeedProducts() {
 			UpdatedAt:   time.Now(),
 		},
 		{
-			Name:        "Portable Charger",
+
 			Price:       22.50,
 			Stock:       70,
 			Description: "10000mAh portable charger for phones and tablets.",
@@ -102,7 +99,6 @@ func SeedProducts() {
 		},
 	}
 
-	// Insert into database
 	if err := db.Create(&products).Error; err != nil {
 		log.Fatal("Failed to seed products:", err)
 	}

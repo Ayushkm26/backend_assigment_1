@@ -23,7 +23,7 @@ func (o *OrderController) CreateOrders(c *gin.Context) {
 		return
 	}
 
-	products, err := o.OrderService.CreateOrders(input)
+	order, items, err := o.OrderService.CreateOrders(input)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -31,5 +31,8 @@ func (o *OrderController) CreateOrders(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, products)
+	c.JSON(http.StatusOK, gin.H{
+		"order": order,
+		"items": items,
+	})
 }

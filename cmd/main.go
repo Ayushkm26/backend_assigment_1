@@ -2,10 +2,12 @@ package main
 
 import (
 	"Backend_assigment_1/DatatbaseConnection"
+	"Backend_assigment_1/kafka"
 	"Backend_assigment_1/migration"
 	"Backend_assigment_1/routes"
-	"github.com/gin-gonic/gin"
 	"log"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -16,6 +18,7 @@ func main() {
 	}
 	migrations.Migrate()
 	migrations.SeedProducts()
+	kafka.InitProducer()
 	router := gin.Default()
 	api := router.Group("/api")
 

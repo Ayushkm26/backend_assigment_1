@@ -8,7 +8,7 @@ import (
 
 func Migrate() {
 	db := DatatbaseConnection.DB
-	if err := db.AutoMigrate(&models.Product{}, &models.Order{}); err != nil {
+	if err := db.AutoMigrate(&models.Product{}, &models.Order{}, &models.OrderItem{}); err != nil {
 		log.Fatal("Failed to migrate database:", err)
 	}
 	log.Println("Database migration completed")

@@ -23,7 +23,15 @@ type OrderItem struct {
 }
 
 type ReqOrder struct {
-	UserID      uint    `json:"user_id"`
-	Status      string  `json:"status"`
-	TotalAmount float64 `json:"total_amount"`
+	UserID uint `json:"userId"`
+	Items  []struct {
+		ProductID uint `json:"productId"`
+		Qty       int  `json:"qty"`
+	} `json:"items"`
+}
+
+type OrderCreatedEvent struct {
+	OrderID uint             `json:"orderId"`
+	UserID  uint             `json:"userId"`
+	Items   []OrderItemEvent `json:"items"`
 }

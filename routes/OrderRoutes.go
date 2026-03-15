@@ -12,7 +12,7 @@ func OrderRoutes(rg *gin.RouterGroup) {
 
 	orders := rg.Group("/orders")
 	{
-		orders.GET("/createOrder", orderController.CreateOrders)
+		orders.POST("/createorder", orderController.CreateOrders)
 
 	}
 }
