@@ -10,9 +10,14 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err1 := godotenv.Load("../.env")
+	if err1 != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	err := DatatbaseConnection.ConnectDB()
 	if err != nil {
