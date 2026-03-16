@@ -1,6 +1,6 @@
-# Backend Assignment 1 — Go (Gin + Kafka + PostgreSQL)
+# Backend Assignment 1 — Go (Gin + Kafka + MySQL)
 
-A RESTful backend service built with **Go**, using the **Gin** web framework, **Kafka** for event streaming, and **PostgreSQL** as the database.
+A RESTful backend service built with **Go**, using the **Gin** web framework, **Kafka** for event streaming, and **MySQL** as the database.
 
 ---
 
@@ -15,7 +15,7 @@ Backend_assigment_1/
 │   ├── OrdersController.go           # Order HTTP handlers
 │   └── ProductController.go          # Product HTTP handlers
 ├── DatabaseConnection/
-│   └── DatabaseConnection.go         # PostgreSQL connection setup
+│   └── DatabaseConnection.go         # MySQL connection setup
 ├── docs/                             # Documentation files
 ├── kafka/
 │   └── producer.go                   # Kafka producer initialization
@@ -44,7 +44,7 @@ Backend_assigment_1/
 Make sure the following are installed on your machine:
 
 - [Go](https://golang.org/dl/) `>= 1.21`
-- [PostgreSQL](https://www.postgresql.org/download/)
+- [MySQL](https://dev.mysql.com/downloads/) `>= 8.0`
 - [Apache Kafka](https://kafka.apache.org/downloads)
 - [Git](https://git-scm.com/)
 
@@ -71,7 +71,7 @@ The `.env` file is already present in the root. Fill in your values:
 
 ```env
 DB_HOST=localhost
-DB_PORT=5432
+DB_PORT=3306
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_NAME=your_db_name
@@ -169,7 +169,7 @@ Max Age:         12 hours
 | [Gin](https://github.com/gin-gonic/gin) | HTTP web framework |
 | [gin-contrib/cors](https://github.com/gin-contrib/cors) | CORS middleware |
 | [Apache Kafka](https://kafka.apache.org/) | Event streaming |
-| [PostgreSQL](https://www.postgresql.org/) | Relational database |
+| [MySQL](https://www.mysql.com/) | Relational database |
 
 ---
 
@@ -205,11 +205,11 @@ POST /api/orders/createorder
 Content-Type: application/json
 
 {
-  "userId": 1,
-  "items": [
-    { "productId": 101, "quantity": 2 },
-    { "productId": 205, "quantity": 1 }
-  ]
+"userId": 1,
+"items": [
+{ "productId": 101, "quantity": 2 },
+{ "productId": 205, "quantity": 1 }
+]
 }
 ```
 **Response — 200 OK**
