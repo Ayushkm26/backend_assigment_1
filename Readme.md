@@ -9,8 +9,7 @@ A RESTful backend service built with **Go**, using the **Gin** web framework, **
 ```
 Backend_assigment_1/
 ├── cmd/
-│   └── cmd/
-│       └── main.go                   # Application entry point
+│    └── main.go                      # Application entry point
 ├── controller/
 │   ├── OrdersController.go           # Order HTTP handlers
 │   └── ProductController.go          # Product HTTP handlers
@@ -346,5 +345,5 @@ POST /api/products/
 
 - On first run, **migrations are applied and products are seeded automatically** via `migrate.go` and `Seed.go`.
 - **Kafka producer** is initialized at startup — ensure Kafka is running before starting the app.
-- The main entry point is `cmd/cmd/main.go`.
+- The main entry point is `cmd/main.go`.
 - CORS is configured to allow requests from the **Java Spring backend** on `localhost:9000`.
