@@ -11,7 +11,7 @@ import (
 )
 
 type OrderController struct {
-	OrderService *services.Order
+	OrderService *services.Order /// not copying directly passing the refernce of the service
 }
 
 func (o *OrderController) CreateOrders(c *gin.Context) {

@@ -7,8 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Order struct {
@@ -47,20 +45,20 @@ func (o *Order) CreateOrders(input models.ReqOrder) (models.Order, []models.Orde
 		return models.Order{}, nil, errors.New("user not found")
 	}
 
-	fmt.Println("✅ User found — continuing order creation")
+	fmt.Println(" User found — continuing order creation")
 
 	var total float64
 	var items []models.OrderItem
 
-	for _, it := range input.Items {
+	for _, it := range input.Items { //iteration over item recives from the user and checking their quantity
 		if it.Qty <= 0 {
 			tx.Rollback()
 			return models.Order{}, nil, errors.New("item quantity must be greater than zero")
 		}
 
-		// ✅ Reliable product check — same pattern as user check
+		//  Reliable product check — same pattern as user check
 		var product models.Product
-		tx.First(&product, it.ProductID)
+		tx.First(&product, it.ProductID) //get product by id
 		if product.ID == 0 {
 			tx.Rollback()
 			return models.Order{}, nil, fmt.Errorf("product with ID %d not found", it.ProductID)
@@ -71,7 +69,7 @@ func (o *Order) CreateOrders(input models.ReqOrder) (models.Order, []models.Orde
 			return models.Order{}, nil, fmt.Errorf("insufficient stock for product ID %d", it.ProductID)
 		}
 
-		total += product.Price * float64(it.Qty)
+		total += product.Price * float64(it.Qty) //claculate the total price and store it in orders tabel
 		items = append(items, models.OrderItem{
 			ProductID: it.ProductID,
 			Qty:       it.Qty,
@@ -87,28 +85,28 @@ func (o *Order) CreateOrders(input models.ReqOrder) (models.Order, []models.Orde
 		UpdatedAt:   time.Now(),
 	}
 
-	if err := tx.Create(&order).Error; err != nil {
+	if err := tx.Create(&order).Error; err != nil { //inserting the orderItem in db ;
 		tx.Rollback()
 		return models.Order{}, nil, err
 	}
 
-	for i := range items {
+	for i := range items { // assigning the order id created after order to the respected items
 		items[i].OrderID = order.ID
 	}
 
-	if err := tx.Create(&items).Error; err != nil {
+	if err := tx.Create(&items).Error; err != nil { //creatung the iorder_items tabel
 		tx.Rollback()
 		return models.Order{}, nil, err
 	}
 
-	for _, it := range items {
-		if err := tx.Model(&models.Product{}).
-			Where("id = ?", it.ProductID).
-			UpdateColumn("stock", gorm.Expr("stock - ?", it.Qty)).Error; err != nil {
-			tx.Rollback()
-			return models.Order{}, nil, err
-		}
-	}
+	//for _, it := range items {
+	//	if err := tx.Model(&models.Product{}). //updation of the stock as it would be performed by the kafka consumer
+	//		Where("id = ?", it.ProductID).
+	//		UpdateColumn("stock", gorm.Expr("stock - ?", it.Qty)).Error; err != nil {
+	//		tx.Rollback()
+	//		return models.Order{}, nil, err
+	//	}
+	//}
 
 	if err := tx.Commit().Error; err != nil {
 		return models.Order{}, nil, err

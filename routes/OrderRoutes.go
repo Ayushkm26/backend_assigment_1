@@ -10,7 +10,7 @@ import (
 func OrderRoutes(rg *gin.RouterGroup) {
 
 	orderController := controller.OrderController{
-		OrderService: &services.Order{},
+		OrderService: &services.Order{}, // doinng  dependecies injection creating controller service and injecting orderService in to it as it is depending upon it
 	}
 
 	orders := rg.Group("/orders")
